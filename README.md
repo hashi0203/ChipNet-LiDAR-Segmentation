@@ -6,10 +6,10 @@ This program is based on ["ChipNet: Real-Time LiDAR Processing for Drivable Regi
 
 ## DEMO
 
-Input
+### Input
 <img src="img/um_000094-input.png" alt="um_000094 input">
 
-Output
+### Output
 <img src="img/um_000094-output-cross-entropy.png" alt="um_000094 cross-entropy">
 
 ## Environment
@@ -67,14 +67,14 @@ $ python3 train.py
 
 ### Options
 
-- `--mse, -m`: use `MSE` instead of `Cross-entropy` for criterion
-- `--progress, -p`: show progress bar when preparing dataset (It takes long time to prepare dataset)
-- `--summary, -s`: show torchsummary to see the neural net structure
+- `--mse`, `-m`: use `MSE` instead of `Cross-entropy` for criterion
+- `--progress`, `-p`: show progress bar when preparing dataset (It takes long time to prepare dataset)
+- `--summary`, `-s`: show torchsummary to see the neural net structure
 
 ### Settings
 
-We used `Adam` as optimizer, and run 150 epochs by using 80 data each of `um`, `umm`, and `uu`. <br>
-The rest of the data is used for testing.<br>
+We use `Adam` as optimizer, and run 150 epochs by using 80 data each of `um`, `umm`, and `uu`. <br>
+The remaining data are used for testing.<br>
 Checkpoint and Learning curve are saved in `checkpoint` and `graph` directory, respectively.
 
 ### Checkpoint files
@@ -88,6 +88,7 @@ Checkpoint and Learning curve are saved in `checkpoint` and `graph` directory, r
 $ python3 evaluate.py --file='/path/to/checkpoint/file'
 ```
 
+`/path/to/checkpoint/file` is `checkpoint/ckpt-0706-2335.pth`, for example.
 You can change images used by changing `datanum` and `startidx` in `evaluate.py`.<br>
 Input to the network and its output are saved in `result` directory.
 
