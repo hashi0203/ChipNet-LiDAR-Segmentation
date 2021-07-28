@@ -1,4 +1,3 @@
-import struct
 import numpy as np
 import os
 import matplotlib.pyplot as plt
@@ -7,22 +6,17 @@ from BirdsEyeView import readKittiCalib
 
 # read binary and convert to cylindsrical view
 def bin2Pcd(binFileName):
-    size_float = 4
     # x, y, z: geometric coordinates
     # t(theta), p(phi), r(rho): spherical coordinates
     # h: intensity
-    xyztprh = []
+    x, y, z, h = np.fromfile(binFileName, dtype=np.float32).reshape((-1, 4)).astype(np.float64).T
     # open file as binary
-    with open(binFileName, "rb") as f:
-        byte = f.read(size_float * 4)
-        while byte:
-            x, y, z, intensity = struct.unpack("ffff", byte)
-            r = np.sqrt(x * x + y * y + z * z)
-            t = np.rad2deg(np.arccos(z / r))
-            p = np.rad2deg(np.arctan2(y, x))
-            xyztprh.append([x, y, z, t, p, r, intensity])
-            byte = f.read(size_float * 4)
-    return np.array(xyztprh)
+    r = np.sqrt(x * x + y * y + z * z)
+    t = np.rad2deg(np.arccos(z / r))
+    p = np.rad2deg(np.arctan2(y, x))
+    xyztprh = np.vstack([x, y, z, t, p, r, h]).T
+
+    return xyztprh
 
 # project point cloud data onto cylindrical view [p_len, t_len, channel]
 # channel = (xyztprh for nearest point) + (xyztprh for farthest point) = 7 + 7 = 14
